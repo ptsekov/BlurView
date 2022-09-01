@@ -7,6 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import eightbitlab.com.blurview.BlurView;
+import eightbitlab.com.blurview.RenderScriptBlur;
+
 public class ExampleListAdapter extends RecyclerView.Adapter<ExampleListAdapter.Holder> {
 
     private static final int ITEMS_COUNT = 64;
@@ -19,7 +22,16 @@ public class ExampleListAdapter extends RecyclerView.Adapter<ExampleListAdapter.
     @Override
     @NonNull
     public Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new Holder(inflater.inflate(R.layout.list_item, parent, false));
+        View itemView = inflater.inflate(R.layout.list_item, parent, false);
+        ViewGroup thumbFrameView = itemView.findViewById(R.id.thumb_frame);
+        BlurView blurView = itemView.findViewById(R.id.blur);
+        setupBlur(blurView, thumbFrameView);
+        itemView.setOnClickListener(v -> {
+            itemView.setScaleX(itemView.getScaleX() == 1.0f ? 1.139f : 1.0f);
+            itemView.setScaleY(itemView.getScaleY() == 1.0f ? 1.139f : 1.0f);
+//            setupBlur(blurView, thumbFrameView);
+        });
+        return new Holder(itemView);
     }
 
     @Override
@@ -29,6 +41,11 @@ public class ExampleListAdapter extends RecyclerView.Adapter<ExampleListAdapter.
     @Override
     public int getItemCount() {
         return ITEMS_COUNT;
+    }
+
+    private void setupBlur(BlurView blurView, ViewGroup rootView) {
+        blurView.setupWith(rootView, new RenderScriptBlur(blurView.getContext()))
+                .setBlurRadius(0.7f);
     }
 
     static class Holder extends RecyclerView.ViewHolder {
