@@ -23,9 +23,9 @@ public class ExampleListAdapter extends RecyclerView.Adapter<ExampleListAdapter.
     @NonNull
     public Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = inflater.inflate(R.layout.list_item, parent, false);
-        ViewGroup thumbFrameView = itemView.findViewById(R.id.thumb_frame);
+//        ViewGroup thumbFrameView = itemView.findViewById(R.id.thumb_frame);
         BlurView blurView = itemView.findViewById(R.id.blur);
-        setupBlur(blurView, thumbFrameView);
+        setupBlur(blurView, (ViewGroup) itemView);
         itemView.setOnClickListener(v -> {
             itemView.setScaleX(itemView.getScaleX() == 1.0f ? 1.139f : 1.0f);
             itemView.setScaleY(itemView.getScaleY() == 1.0f ? 1.139f : 1.0f);

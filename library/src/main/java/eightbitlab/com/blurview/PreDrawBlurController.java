@@ -127,16 +127,18 @@ final class PreDrawBlurController implements BlurController {
 
         int left = blurViewLocation[0] - rootLocation[0];
         int top = blurViewLocation[1] - rootLocation[1];
+        float scaleX = rootView.getScaleX();
+        float scaleY = rootView.getScaleY();
 
         // https://github.com/Dimezis/BlurView/issues/128
-        float scaleFactorH = (float) blurView.getHeight() / internalBitmap.getHeight();
-        float scaleFactorW = (float) blurView.getWidth() / internalBitmap.getWidth();
+        float scaleFactorH = (float) (blurView.getHeight() * scaleY) / internalBitmap.getHeight();
+        float scaleFactorW = (float) (blurView.getWidth() * scaleX) / internalBitmap.getWidth();
 
         float scaledLeftPosition = -left / scaleFactorW;
         float scaledTopPosition = -top / scaleFactorH;
 
         internalCanvas.translate(scaledLeftPosition, scaledTopPosition);
-        internalCanvas.scale(1 / scaleFactorW, 1 / scaleFactorH);
+        internalCanvas.scale(scaleX / scaleFactorW, scaleY / scaleFactorH);
     }
 
     @Override
